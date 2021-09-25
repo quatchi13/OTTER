@@ -125,20 +125,20 @@ int main() {
 
 	static const float interleaved[] = {
 		// X    Y     Z          R     G      B
-		1.0f, -1.0f, 0.5f,		0.0f, 0.0f, 0.0f,
-		1.0f, 0.0f, 0.5f,		0.3f, 0.2f, 0.5f,
-	   0.0f, 0.0f, 0.5f,		1.0f, 1.0f, 0.0f,
-	   0.0f, -1.0f, 0.5f,		1.0f, 1.0f, 1.0f
+		1.0f, -0.8f, 0.5f,		0.0f, 0.0f, 0.0f,
+		0.8f, -0.3f, 0.5f,		0.3f, 0.2f, 0.5f,
+	   0.2f, -0.3f, 0.5f,		1.0f, 1.0f, 0.0f,
+	   0.0f, -0.8f, 0.5f,		1.0f, 1.0f, 1.0f
 	};
 
 	//same pattern of colors multiplied by 0.5
 		//multiplying colors behaves simmilar to changing the overall alpha, cool! :D 
 	static const float interleavedTwo[] = {
 		// X    Y     Z          R     G      B
-		0.0f, 0.0f, 0.5f,		0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.5f,		0.15f, 0.1f, 0.25f,
-	   -1.0f, 1.0f, 0.5f,		0.5f, 0.5f, 0.0f,
-	   -1.0f, 0.0f, 0.5f,		0.5f, 0.5f, 0.5f
+		-0.20f, 0.3f, 0.5f,		0.0f, 0.0f, 0.0f,
+		0.0f, 0.8f, 0.5f,		0.15f, 0.1f, 0.25f,
+	   -1.0f, 0.8f, 0.5f,		0.5f, 0.5f, 0.0f,
+	   -0.80f, 0.3f, 0.5f,		0.5f, 0.5f, 0.5f
 	};
 
 
