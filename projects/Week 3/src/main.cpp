@@ -56,7 +56,7 @@ GLFWwindow* window;
 // The current size of our window in pixels
 glm::ivec2 windowSize = glm::ivec2(800, 800);
 // The title of our GLFW window
-std::string windowTitle = "INFR-1350U";
+std::string windowTitle = "Isaac Taylor - 100785267";
 
 void GlfwWindowResizedCallback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
@@ -125,11 +125,23 @@ int main() {
 
 	static const float interleaved[] = {
 		// X    Y     Z          R     G      B
-		0.5f, -0.5f, 0.5f,		0.0f, 0.0f, 0.0f,
-		0.5f, 0.5f, 0.5f,		0.3f, 0.2f, 0.5f,
-	   -0.5f, 0.5f, 0.5f,		1.0f, 1.0f, 0.0f,
-	   -0.5f, -0.5f, 0.5f,		1.0f, 1.0f, 1.0f
+		1.0f, -1.0f, 0.5f,		0.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.5f,		0.3f, 0.2f, 0.5f,
+	   0.0f, 0.0f, 0.5f,		1.0f, 1.0f, 0.0f,
+	   0.0f, -1.0f, 0.5f,		1.0f, 1.0f, 1.0f
 	};
+
+	//same pattern of colors multiplied by 0.5
+		//multiplying colors behaves simmilar to changing the overall alpha, cool! :D 
+	static const float interleavedTwo[] = {
+		// X    Y     Z          R     G      B
+		0.0f, 0.0f, 0.5f,		0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.5f,		0.15f, 0.1f, 0.25f,
+	   -1.0f, 1.0f, 0.5f,		0.5f, 0.5f, 0.0f,
+	   -1.0f, 0.0f, 0.5f,		0.5f, 0.5f, 0.5f
+	};
+
+
 
 	VertexBuffer* interleaved_vbo = new VertexBuffer();
 	interleaved_vbo->LoadData(interleaved, 6 * 4);
@@ -149,6 +161,25 @@ int main() {
 		});
 	vao2->SetIndexBuffer(interleaved_ibo);
 
+
+
+	VertexBuffer* interleavedTwo_vbo = new VertexBuffer();
+	interleavedTwo_vbo->LoadData(interleavedTwo, 6 * 4);
+
+	static const uint16_t indicesTwo[] = {
+		3, 0, 1,
+		3, 1, 2
+	};
+	IndexBuffer* interleavedTwo_ibo = new IndexBuffer();
+	interleavedTwo_ibo->LoadData(indicesTwo, 3 * 2);
+
+	size_t strideTwo = sizeof(float) * 6;
+	VertexArrayObject* vao3 = new VertexArrayObject();
+	vao3->AddVertexBuffer(interleavedTwo_vbo, {
+	BufferAttribute(0, 3, AttributeType::Float, strideTwo, 0),
+	BufferAttribute(1, 3, AttributeType::Float, strideTwo, sizeof(float) * 3),
+		});
+	vao3->SetIndexBuffer(interleavedTwo_ibo);
 
 
 
@@ -172,6 +203,11 @@ int main() {
 	shader->LoadShaderPartFromFile("shaders/vertex_shader.glsl", ShaderPartType::Vertex);
 	shader->LoadShaderPartFromFile("shaders/frag_shader.glsl", ShaderPartType::Fragment);
 	shader->Link();
+
+	Shader* shaderTwo = new Shader();
+	shaderTwo->LoadShaderPartFromFile("shaders/vertex_shader.glsl", ShaderPartType::Vertex);
+	shaderTwo->LoadShaderPartFromFile("shaders/frag_shader.glsl", ShaderPartType::Fragment);
+	shaderTwo->Link();
 
 	// GL states
 	glEnable(GL_DEPTH_TEST);
@@ -201,6 +237,14 @@ int main() {
 			(GLenum)interleaved_ibo->GetElementCount(), 
 			(GLenum)interleaved_ibo->GetElementType(), nullptr);
 		VertexArrayObject::Unbind();
+
+		shaderTwo->Bind();
+		vao3->Bind();
+		glDrawElements(GL_TRIANGLES,
+			(GLenum)interleavedTwo_ibo->GetElementCount(),
+			(GLenum)interleavedTwo_ibo->GetElementType(), nullptr);
+		VertexArrayObject::Unbind();
+
 
 		glfwSwapBuffers(window);
 	}
